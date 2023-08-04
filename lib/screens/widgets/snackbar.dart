@@ -5,8 +5,10 @@ void showSnackBar(BuildContext context,Color color,String text) {
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.all(10),
         backgroundColor: color,
-        content:  Text(
-          text,
-          style: const TextStyle(fontSize: 17),
+        content:  Center(
+          child: Text(
+            text,
+            // style: const TextStyle(fontSize: 17),
+          ),
         )));
   }

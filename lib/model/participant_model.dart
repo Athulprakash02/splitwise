@@ -14,11 +14,11 @@ class ParticipantModel extends HiveObject {
   final String participantName;
 
   @HiveField(3)
-  final int amount;
+   int amount = 0;
 
   ParticipantModel(
    {required this.groupName,
    required this.participantName,
-   required this.amount,}
+   }
   );
 }

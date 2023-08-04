@@ -12,6 +12,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    fetchAllGroups();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -20,27 +22,32 @@ class HomeScreen extends StatelessWidget {
       body: ValueListenableBuilder(
         valueListenable: groupsNotifier,
         builder: (BuildContext ctx, List<GroupModel> groups, child) {
-          return ListView.separated(
-              itemBuilder: (ctx, index) {
-                final group = groups[index];
-                return ListTile(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return ExpenseScreen(group: group, index: index);
-                      },
-                    ));
-                  },
-                  leading: const CircleAvatar(
-                    radius: 25,
-                    backgroundImage: AssetImage('assets/images/icon image.png'),
-                    // backgroundColor: Colors.cyan,
-                  ),
-                  title: Text(group.groupName),
-                );
-              },
-              separatorBuilder: (context, index) => const Divider(),
-              itemCount: groups.length);
+          return Padding(
+            padding:  EdgeInsets.all(size.width/16),
+            child: ListView.separated(
+                physics: BouncingScrollPhysics(),
+          
+                itemBuilder: (ctx, index) {
+                  final group = groups[index];
+                  return ListTile(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return ExpenseScreen(group: group, index: index);
+                        },
+                      ));
+                    },
+                    leading: const CircleAvatar(
+                      radius: 25,
+                      backgroundImage: AssetImage('assets/images/icon image.png'),
+                      // backgroundColor: Colors.cyan,
+                    ),
+                    title: Text(group.groupName),
+                  );
+                },
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: groups.length),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
