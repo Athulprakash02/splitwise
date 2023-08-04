@@ -9,7 +9,6 @@ final List<ParticipantModel> participants = [];
 
 
 Future<void> onCreateGroupClicked(String name,BuildContext context) async {
-  print('object');
   final String groupName = name;
   final group = GroupModel(
     groupName: groupName,

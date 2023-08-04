@@ -8,7 +8,11 @@ import 'package:splitwise/screens/home_screen.dart';
 import 'package:splitwise/screens/widgets/snackbar.dart';
 
 class SplitExpenseScreen extends StatefulWidget {
-  SplitExpenseScreen({super.key, required this.group, required this.list, required this.index});
+  const SplitExpenseScreen(
+      {super.key,
+      required this.group,
+      required this.list,
+      required this.index});
   final GroupModel group;
   final List<ParticipantModel> list;
   final int index;
@@ -23,7 +27,6 @@ class _SplitExpenseScreenState extends State<SplitExpenseScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     for (var i = 0; i < widget.list.length; i++) {
       _percentageControllers.add(TextEditingController());
@@ -32,8 +35,6 @@ class _SplitExpenseScreenState extends State<SplitExpenseScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     for (var controller in _percentageControllers) {
       controller.dispose();
     }
@@ -45,7 +46,7 @@ class _SplitExpenseScreenState extends State<SplitExpenseScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Split expense'),
+        title: const Text('Split expense'),
         centerTitle: true,
       ),
       body: Padding(
@@ -103,22 +104,21 @@ class _SplitExpenseScreenState extends State<SplitExpenseScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async{
-          num total = await splitExpense();
-          if(total ==100){
-             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => ExpenseScreen(group: widget.group,index: widget.index,),
-                ));
-                
-            
-          }else{
-            showSnackBar(context, Colors.red, "Total percentage should be 100.");
-          }
-            
-           
+          onPressed: () async {
+            num total = splitExpense();
+            if (total == 100) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => ExpenseScreen(
+                  group: widget.group,
+                  index: widget.index,
+                ),
+              ));
+            } else {
+              showSnackBar(
+                  context, Colors.red, "Total percentage should be 100.");
+            }
           },
-          label: Text('Split expense')),
+          label: const Text('Split expense')),
     );
   }
 
@@ -142,19 +142,18 @@ class _SplitExpenseScreenState extends State<SplitExpenseScreen> {
 
       updateParticipantsAmounts(widget.list);
       Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
-                ),
-                (route) => false);
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+          (route) => false);
 
       _amountController.clear();
       for (var controller in _percentageControllers) {
         controller.clear();
       }
       return totalPercentage;
-       
     } else {
-     showSnackBar(context, Colors.red, "Total percentage should be 100.");
+      showSnackBar(context, Colors.red, "Total percentage should be 100.");
     }
     return 0;
   }

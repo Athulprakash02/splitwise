@@ -29,8 +29,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Splitwise',
       theme: ThemeData(primaryColor:themeColor,
-      appBarTheme: AppBarTheme(
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(splashColor: cyanColor,backgroundColor: themeColor
+      ),
+      appBarTheme: const AppBarTheme(
         backgroundColor: themeColor
+
       )),
       home:  HomeScreen(),
 

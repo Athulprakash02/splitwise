@@ -2,4 +2,5 @@
 
 import 'package:flutter/material.dart';
 
-Color themeColor = Colors.red;
+const Color themeColor = Colors.red;
+const Color cyanColor = Colors.cyan;

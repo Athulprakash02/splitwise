@@ -11,6 +11,7 @@ Future<void> createGroup(GroupModel groupName) async {
   groupName.id = group;
   fetchAllGroups();
   groupsNotifier.value.add(groupName);
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   groupsNotifier.notifyListeners();
 }
 
@@ -18,6 +19,7 @@ Future<void> fetchAllGroups() async {
   final groups = await Hive.openBox<GroupModel>('groups');
   groupsNotifier.value.clear();
   groupsNotifier.value.addAll(groups.values);
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   groupsNotifier.notifyListeners();
 }
 
@@ -30,6 +32,7 @@ Future<void> addParticipant(
   participantName.id = group;
   fetchParticipants(groupName);
   participantNotifier.value.add(participantName);
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   participantNotifier.notifyListeners();
 }
 
@@ -45,5 +48,6 @@ Future<void> fetchParticipants(String groupName) async {
       .toList();
 
   participantNotifier.value.addAll(selectedGroupParticipants);
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   participantNotifier.notifyListeners();
 }

@@ -5,10 +5,11 @@ import 'package:splitwise/model/group_model.dart';
 import 'package:splitwise/screens/expense_screen.dart';
 import 'package:splitwise/screens/widgets/snackbar.dart';
 
+// ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  TextEditingController _groupNameController = TextEditingController();
+  final TextEditingController _groupNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class HomeScreen extends StatelessWidget {
           return Padding(
             padding:  EdgeInsets.all(size.width/16),
             child: ListView.separated(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
           
                 itemBuilder: (ctx, index) {
                   final group = groups[index];
@@ -40,9 +41,9 @@ class HomeScreen extends StatelessWidget {
                     leading: const CircleAvatar(
                       radius: 25,
                       backgroundImage: AssetImage('assets/images/icon image.png'),
-                      // backgroundColor: Colors.cyan,
+                      
                     ),
-                    title: Text(group.groupName),
+                    title: Text(group.groupName,style: const TextStyle(fontSize: 20),),
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(),
@@ -71,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(ctx).pop();
                       },
-                      child: const Text('Cancel')),
+                      child: const Text('Cancel',style: TextStyle(fontSize: 16),)),
                   TextButton(
                       onPressed: () {
                         if (_groupNameController.text.isEmpty) {
@@ -80,9 +81,10 @@ class HomeScreen extends StatelessWidget {
                         } else {
                           onCreateGroupClicked(
                               _groupNameController.text.trim(), context);
+                              _groupNameController.clear();
                         }
                       },
-                      child: const Text('Create'))
+                      child: const Text('Create',style: TextStyle(fontSize: 16)))
                 ],
               );
             },

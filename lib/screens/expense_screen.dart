@@ -15,7 +15,7 @@ class ExpenseScreen extends StatelessWidget {
   final TextEditingController _participantNameController =
       TextEditingController();
 
-      final List<ParticipantModel> list = [];
+  final List<ParticipantModel> list = [];
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,15 @@ class ExpenseScreen extends StatelessWidget {
     fetchParticipants(group.groupName);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen(),), (route) => false);
-        }, icon: Icon(Icons.home)),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ),
+                  (route) => false);
+            },
+            icon: const Icon(Icons.home)),
         title: const Text('Expenses'),
         centerTitle: true,
       ),
@@ -43,11 +49,11 @@ class ExpenseScreen extends StatelessWidget {
                   return ListTile(
                       title: Text(
                         user.participantName,
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 20),
                       ),
                       trailing: Text(
                         "₹${user.amount}",
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 20),
                       ));
                 },
                 separatorBuilder: (context, index) => const Divider(),
@@ -64,7 +70,7 @@ class ExpenseScreen extends StatelessWidget {
                   return AlertDialog(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    title: const Text('Create group'),
+                    title: const Text('Add participant'),
                     content: TextField(
                       controller: _participantNameController,
                       decoration: InputDecoration(
@@ -77,22 +83,24 @@ class ExpenseScreen extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(ctx).pop();
                           },
-                          child: const Text('Cancel')),
+                          child: const Text('Cancel',
+                              style: TextStyle(fontSize: 16))),
                       TextButton(
                           onPressed: () {
                             if (_participantNameController.text.isEmpty) {
                               showSnackBar(context, Colors.red,
                                   "Participant name can't be empty");
                             } else {
+                              
                               onAddParticipantClicked(
                                   _participantNameController.text.trim(),
                                   group.groupName,
                                   context);
-                              // onCreateGroupClicked(
-                              //     _groupNameController.text.trim(), context);
+                                  _participantNameController.clear();
                             }
                           },
-                          child: const Text('Add'))
+                          child:
+                              const Text('Add', style: TextStyle(fontSize: 16)))
                     ],
                   );
                 },
@@ -101,14 +109,15 @@ class ExpenseScreen extends StatelessWidget {
             icon: const Icon(Icons.add),
             label: const Text('Add participants')),
         ElevatedButton.icon(
-            onPressed: ()  {
+            onPressed: () {
               
-                Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => SplitExpenseScreen(group: group,list: list,index: index,),
-                
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SplitExpenseScreen(
+                  group: group,
+                  list: list,
+                  index: index,
+                ),
               ));
-              
-              
 
               // if(users)
             },
@@ -117,6 +126,4 @@ class ExpenseScreen extends StatelessWidget {
       ],
     );
   }
-
-  
 }
