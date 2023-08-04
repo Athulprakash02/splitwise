@@ -19,9 +19,8 @@ class ParticipantModelAdapter extends TypeAdapter<ParticipantModel> {
     return ParticipantModel(
       groupName: fields[1] as String,
       participantName: fields[2] as String,
-    )
-      ..id = fields[0] as int?
-      ..amount = fields[3] as int;
+      amount: fields[3] as num,
+    )..id = fields[0] as int?;
   }
 
   @override

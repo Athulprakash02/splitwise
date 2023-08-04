@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/functions/db_functions.dart';
+import 'package:splitwise/functions/update_amount.dart';
 import 'package:splitwise/model/group_model.dart';
 import 'package:splitwise/model/participant_model.dart';
+import 'package:splitwise/screens/expense_screen.dart';
+import 'package:splitwise/screens/home_screen.dart';
+import 'package:splitwise/screens/widgets/snackbar.dart';
 
 class SplitExpenseScreen extends StatefulWidget {
-  SplitExpenseScreen({super.key, required this.group, required this.list});
+  SplitExpenseScreen({super.key, required this.group, required this.list, required this.index});
   final GroupModel group;
   final List<ParticipantModel> list;
+  final int index;
 
   @override
   State<SplitExpenseScreen> createState() => _SplitExpenseScreenState();
@@ -98,19 +103,59 @@ class _SplitExpenseScreenState extends State<SplitExpenseScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            _splitExpense();
-          }, label: Text('Split expense')),
+          onPressed: () async{
+          num total = await splitExpense();
+          if(total ==100){
+             Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => ExpenseScreen(group: widget.group,index: widget.index,),
+                ));
+                
+            
+          }else{
+            showSnackBar(context, Colors.red, "Total percentage should be 100.");
+          }
+            
+           
+          },
+          label: Text('Split expense')),
     );
   }
 
-  void _splitExpense(){
-    num totalPercentage = 0;
-    for(var controller in _percentageControllers){
-      if(controller.text.isNotEmpty){
-        totalPercentage += num.tryParse(controller.text) ?? 0;
+  num splitExpense() {
+    double totalAmount = double.tryParse(_amountController.text) ?? 0;
+    double totalPercentage = 0;
+
+    for (var controller in _percentageControllers) {
+      if (controller.text.isNotEmpty) {
+        totalPercentage += double.tryParse(controller.text) ?? 0;
       }
-      print(totalPercentage);
     }
+
+    if (totalPercentage == 100) {
+      for (var i = 0; i < widget.list.length; i++) {
+        double percentage =
+            double.tryParse(_percentageControllers[i].text) ?? 0;
+        double share = (totalAmount * percentage) / 100;
+        widget.list[i].amount = share;
+      }
+
+      updateParticipantsAmounts(widget.list);
+      Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                ),
+                (route) => false);
+
+      _amountController.clear();
+      for (var controller in _percentageControllers) {
+        controller.clear();
+      }
+      return totalPercentage;
+       
+    } else {
+     showSnackBar(context, Colors.red, "Total percentage should be 100.");
+    }
+    return 0;
   }
 }

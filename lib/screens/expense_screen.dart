@@ -3,6 +3,7 @@ import 'package:splitwise/functions/add_participants.dart';
 import 'package:splitwise/functions/db_functions.dart';
 import 'package:splitwise/model/group_model.dart';
 import 'package:splitwise/model/participant_model.dart';
+import 'package:splitwise/screens/home_screen.dart';
 import 'package:splitwise/screens/split_expense_screen.dart';
 import 'package:splitwise/screens/widgets/snackbar.dart';
 
@@ -22,6 +23,9 @@ class ExpenseScreen extends StatelessWidget {
     fetchParticipants(group.groupName);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: () {
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen(),), (route) => false);
+        }, icon: Icon(Icons.home)),
         title: const Text('Expenses'),
         centerTitle: true,
       ),
@@ -100,7 +104,7 @@ class ExpenseScreen extends StatelessWidget {
             onPressed: ()  {
               
                 Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => SplitExpenseScreen(group: group,list: list),
+                builder: (context) => SplitExpenseScreen(group: group,list: list,index: index,),
                 
               ));
               
