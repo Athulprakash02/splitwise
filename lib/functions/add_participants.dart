@@ -11,3 +11,4 @@ Future<void> onAddParticipantClicked(String name,String groupName,BuildContext c
   addParticipant(participant,groupName);
     Navigator.of(context).pop();
 }
+

@@ -17,4 +17,6 @@ class GroupModel extends HiveObject {
     required this.groupName,
     required this.participants,
   });
+
+  copyWith({required List<ParticipantModel> participants}) {}
 }

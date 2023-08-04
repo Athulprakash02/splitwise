@@ -3,6 +3,7 @@ import 'package:splitwise/functions/add_participants.dart';
 import 'package:splitwise/functions/db_functions.dart';
 import 'package:splitwise/model/group_model.dart';
 import 'package:splitwise/model/participant_model.dart';
+import 'package:splitwise/screens/split_expense_screen.dart';
 import 'package:splitwise/screens/widgets/snackbar.dart';
 
 class ExpenseScreen extends StatelessWidget {
@@ -10,7 +11,10 @@ class ExpenseScreen extends StatelessWidget {
   final GroupModel group;
   final int index;
 
-  TextEditingController _participantNameController = TextEditingController();
+  final TextEditingController _participantNameController =
+      TextEditingController();
+
+      final List<ParticipantModel> list = [];
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +30,21 @@ class ExpenseScreen extends StatelessWidget {
         builder:
             (BuildContext ctx, List<ParticipantModel> participants, child) {
           return Padding(
-            padding:  EdgeInsets.all(size.width/16),
+            padding: EdgeInsets.all(size.width / 16),
             child: ListView.separated(
-              physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   final user = participants[index];
-                  return ListTile(title: Text(user.participantName,style: TextStyle(fontSize: 18),),
-                  trailing: Text("₹"+ user.amount.toString(),style: TextStyle(fontSize: 18),));
+                  list.add(user);
+                  return ListTile(
+                      title: Text(
+                        user.participantName,
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      trailing: Text(
+                        "₹${user.amount}",
+                        style: const TextStyle(fontSize: 18),
+                      ));
                 },
                 separatorBuilder: (context, index) => const Divider(),
                 itemCount: participants.length),
@@ -85,10 +97,22 @@ class ExpenseScreen extends StatelessWidget {
             icon: const Icon(Icons.add),
             label: const Text('Add participants')),
         ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: ()  {
+              
+                Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SplitExpenseScreen(group: group,list: list),
+                
+              ));
+              
+              
+
+              // if(users)
+            },
             icon: const Icon(Icons.attach_money_sharp),
             label: const Text('Split expense')),
       ],
     );
   }
+
+  
 }
