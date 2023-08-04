@@ -46,15 +46,33 @@ class ExpenseScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final user = participants[index];
                   list.add(user);
-                  return ListTile(
-                      title: Text(
-                        user.participantName,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      trailing: Text(
-                        "₹${user.amount}",
-                        style: const TextStyle(fontSize: 20),
-                      ));
+                  return Container(
+                    width: size.width,
+                    height: size.width * .22,
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Container color
+                      borderRadius:
+                          BorderRadius.circular(8.0), // Rounded corners
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5), // Shadow color
+                          spreadRadius: 1, // Spread radius
+                          blurRadius: 5, // Blur radius
+                          offset: const Offset(0, 2), // Offset in the x, y direction
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                        child: ListTile(
+                            title: Text(
+                              user.participantName,
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                            trailing: Text(
+                              "₹${user.amount}",
+                              style: const TextStyle(fontSize: 20),
+                            ))),
+                  );
                 },
                 separatorBuilder: (context, index) => const Divider(),
                 itemCount: participants.length),
@@ -91,12 +109,11 @@ class ExpenseScreen extends StatelessWidget {
                               showSnackBar(context, Colors.red,
                                   "Participant name can't be empty");
                             } else {
-                              
                               onAddParticipantClicked(
                                   _participantNameController.text.trim(),
                                   group.groupName,
                                   context);
-                                  _participantNameController.clear();
+                              _participantNameController.clear();
                             }
                           },
                           child:
@@ -110,7 +127,6 @@ class ExpenseScreen extends StatelessWidget {
             label: const Text('Add participants')),
         ElevatedButton.icon(
             onPressed: () {
-              
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => SplitExpenseScreen(
                   group: group,

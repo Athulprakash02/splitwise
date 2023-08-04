@@ -24,26 +24,48 @@ class HomeScreen extends StatelessWidget {
         valueListenable: groupsNotifier,
         builder: (BuildContext ctx, List<GroupModel> groups, child) {
           return Padding(
-            padding:  EdgeInsets.all(size.width/16),
+            padding: EdgeInsets.all(size.width / 16),
             child: ListView.separated(
                 physics: const BouncingScrollPhysics(),
-          
                 itemBuilder: (ctx, index) {
                   final group = groups[index];
-                  return ListTile(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return ExpenseScreen(group: group, index: index);
-                        },
-                      ));
-                    },
-                    leading: const CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage('assets/images/icon image.png'),
-                      
+
+                  return Container(
+                    width: size.width,
+                    height: size.width*.22,
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Container color
+                      borderRadius:
+                          BorderRadius.circular(8.0), // Rounded corners
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5), // Shadow color
+                          spreadRadius: 1, // Spread radius
+                          blurRadius: 5, // Blur radius
+                          offset: const Offset(0, 2), // Offset in the x, y direction
+                        ),
+                      ],
                     ),
-                    title: Text(group.groupName,style: const TextStyle(fontSize: 20),),
+                    child: Center(
+                        child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return ExpenseScreen(group: group, index: index);
+                          },
+                        ));
+                      },
+                      leading: const CircleAvatar(
+                        radius: 25,
+                        backgroundImage:
+                            AssetImage('assets/images/icon image.png'),
+                      ),
+                      title: Text(
+                        group.groupName,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      style: ListTileStyle.drawer,
+                    )),
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(),
@@ -72,7 +94,10 @@ class HomeScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(ctx).pop();
                       },
-                      child: const Text('Cancel',style: TextStyle(fontSize: 16),)),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(fontSize: 16),
+                      )),
                   TextButton(
                       onPressed: () {
                         if (_groupNameController.text.isEmpty) {
@@ -81,10 +106,11 @@ class HomeScreen extends StatelessWidget {
                         } else {
                           onCreateGroupClicked(
                               _groupNameController.text.trim(), context);
-                              _groupNameController.clear();
+                          _groupNameController.clear();
                         }
                       },
-                      child: const Text('Create',style: TextStyle(fontSize: 16)))
+                      child:
+                          const Text('Create', style: TextStyle(fontSize: 16)))
                 ],
               );
             },

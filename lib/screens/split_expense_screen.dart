@@ -69,34 +69,53 @@ class _SplitExpenseScreenState extends State<SplitExpenseScreen> {
                 valueListenable: participantNotifier,
                 builder: (BuildContext ctx, List<ParticipantModel> participants,
                     child) {
-                  return Padding(
-                    padding: EdgeInsets.all(size.width / 16),
-                    child: ListView.separated(
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final user = participants[index];
-                          return ListTile(
-                              title: Text(
-                                user.participantName,
-                                style: const TextStyle(fontSize: 18),
+                  return ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final user = participants[index];
+                        return Container(
+                          width: size.width,
+                          height: size.width * .22,
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Container color
+                            borderRadius:
+                                BorderRadius.circular(8.0), // Rounded corners
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey
+                                    .withOpacity(0.5), // Shadow color
+                                spreadRadius: 1, // Spread radius
+                                blurRadius: 5, // Blur radius
+                                offset: const Offset(
+                                    0, 2), // Offset in the x, y direction
                               ),
-                              trailing: SizedBox(
-                                width: size.width * .15,
-                                height: size.width * .2,
-                                child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  controller: _percentageControllers[index],
-                                  decoration: InputDecoration(
-                                      hintText: '%',
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      )),
-                                ),
-                              ));
-                        },
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemCount: participants.length),
-                  );
+                            ],
+                          ),
+                          child: Center(
+                              child: ListTile(
+                                  title: Text(
+                                    user.participantName,
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                  trailing: SizedBox(
+                                    width: size.width * .15,
+                                    height: size.width * .2,
+                                    child: TextField(
+                                      keyboardType: TextInputType.number,
+                                      controller:
+                                          _percentageControllers[index],
+                                      decoration: InputDecoration(
+                                          hintText: '%',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          )),
+                                    ),
+                                  ))),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemCount: participants.length);
                 },
               ),
             ))
