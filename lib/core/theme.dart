@@ -8,4 +8,7 @@ final theme = ThemeData(primaryColor:themeColor,
       appBarTheme: const AppBarTheme(
         backgroundColor: themeColor
 
-      ));
+      ),
+      // buttonTheme: ButtonThemeData(buttonColor: themeColor)
+      elevatedButtonTheme: const ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(themeColor)))
+      );

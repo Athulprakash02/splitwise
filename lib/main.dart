@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:splitwise/core/constants.dart';
 import 'package:splitwise/core/theme.dart';
 import 'package:splitwise/model/group_model.dart';
 import 'package:splitwise/model/participant_model.dart';
